@@ -13,8 +13,8 @@ var InvoiceSchema = new Schema({
         price: {type: Number, default:0},
         quantity:{type: Number, default:0},
         unitPrice: {type: Number, default:0},
-        tax
-    }],
+        tax: {type: Number, default:0}
+}],
     totalPrice: Number,
     totalTax: Number,
     created:Date
