@@ -1,5 +1,7 @@
 import React from 'react';
 import ShowCase from './ShowCase.jsx';
+import Contact from './Contact.jsx';
+import ContactUpdate from './ContactUpdate.jsx';
 import ShowPiece from './ShowPiece.jsx';
 import Signin from './Signin.jsx';
 import SignOut from './SignOut.jsx';
@@ -23,6 +25,8 @@ export default (props) => {
     <Router history={history}>
       <Route path="/" component={Header}>
         <IndexRoute component={ShowCase}/>
+        <Route path="contacts" component={Contact} />
+        <Route path="contacts/:id" component={ContactUpdate} />
         <Route path="signin" component={Signin} />
         <Route path="signout" component={SignOut} />
         <Route path="about" component={About} />

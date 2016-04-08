@@ -1,5 +1,6 @@
 let mongoose = require('mongoose');
 let ShowPiece = require('./models/ShowPiece.js');
+let Contact = require('./models/Contact.js');
 var User = require('./models/User.js');
 
 mongoose.connection.db.dropDatabase();
@@ -62,3 +63,38 @@ var user = {
 user = new User(user);
 user.hashPassword(user.password);
 user.save();
+
+var initialContacts = [{
+  name: 'Test Name',
+  companyName: 'Test Company Name',
+  email: 'email@test.com',
+  surname: 'Test Surname',
+  phone: 'Test Phone',
+  address: 'Test Address'
+}, {
+  name: 'Test Name 2',
+  companyName: 'Test Company Name 2',
+  email: 'email2@test.com',
+  surname: 'Test Surname 2',
+  phone: 'Test Phone 2',
+  address: 'Test Address 2'
+}, {
+  name: 'Test Name 3',
+  companyName: 'Test Company Name 3',
+  email: 'email3@test.com',
+  surname: 'Test Surname 3',
+  phone: 'Test Phone 3',
+  address: 'Test Address 3'
+}, {
+  name: 'Test Name 4',
+  companyName: 'Test Company Name 4',
+  email: 'email4@test.com',
+  surname: 'Test Surname 4',
+  phone: 'Test Phone 4',
+  address: 'Test Address 4'
+},
+];
+
+initialContacts.forEach(function(value) {
+  new Contact(value).save();
+});

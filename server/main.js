@@ -14,10 +14,10 @@ var path = require('path');
 var db = require('./database.js');
 
 require('./models/ShowPiece.js');
+require('./models/Contact.js');
 require('./models/User.js');
 // Bootstrap passport config
 require('./passport')();
-
 
 var app = new express();
 
@@ -65,6 +65,7 @@ app.use(passport.session());
 
 require('./routes/users.server.routes.js')(app);
 require('./routes/showpieces.server.routes.js')(app);
+require('./routes/contacts.server.routes.js')(app);
 
 
 app.use(function(req, res, next) {
@@ -74,6 +75,5 @@ app.use(function(req, res, next) {
   } else
     res.status(404).send('Sorry cant find that!');
 });
-
 
 module.exports = app;

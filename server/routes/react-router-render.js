@@ -5,6 +5,7 @@ import createLocation from 'history/lib/createLocation';
 import ShowCase from './../../app/components/ShowCase';
 import DataWrapper from './../../app/components/DataWrapper';
 import ShowPiece from './../models/ShowPiece.js';
+import Contact from './../models/Contact.js';
 
 module.exports = function(app) {
 
@@ -16,6 +17,12 @@ module.exports = function(app) {
     },
     childRoutes: [
       {
+        path: 'contacts',
+        component: require('./../../app/components/Contact')
+      }, {
+        path: 'contact/:id',
+        component: require('./../../app/components/ContactUpdate')
+      }, {
         path: 'signin',
         component: require('./../../app/components/Signin')
       }, {
@@ -36,6 +43,7 @@ module.exports = function(app) {
 
     // Note that req.url here should be the full URL path from
     // the original request, including the query string.
+
     match({
       routes,
       location
@@ -69,7 +77,6 @@ function renderWithData(req, res, renderProps) {
       console.log(data);
       renderIsoOutput(data, renderProps, res);
     })
-
   } else {
     renderIsoOutput([], renderProps, res);
   }

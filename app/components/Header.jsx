@@ -52,12 +52,18 @@ class Header extends React.Component {
               onTouchTap={this._menuClick}
               index={1}>About</MenuItem>
           </Link>
+          <Link to="/contacts" className="menuLink">
+            <MenuItem
+              className="menuItem"
+              onTouchTap={this._menuClick}
+              index={2}>Contacts</MenuItem>
+          </Link>
           {!this.state.loggedIn ? (
             <Link to="/signin" className="menuLink">
               <MenuItem
                 className="menuItem"
                 onTouchTap={this._menuClick}
-                index={2}>
+                index={3}>
                 Sign In
               </MenuItem>
             </Link>
@@ -66,26 +72,26 @@ class Header extends React.Component {
               <MenuItem
                 className="menuItem"
                 onTouchTap={this._menuClick}
-                index={2}>
+                index={3}>
                 Sign Out
               </MenuItem>
             </Link>
           )}
           <div className="menuSubheader">
             <SubheaderMenuItem
-              index={3}
+              index={4}
               text='Social'
               />
           </div>
           <LinkMenuItem
-            index={4}
+            index={5}
             text='GitHub'
             payload="https://github.com/romanmandryk"
             target="_blank"
             className="menuLink"
             />
           <LinkMenuItem
-            index={4}
+            index={6}
             text='Twitter'
             payload="https://twitter.com/RomanMandryk"
             target="_blank"

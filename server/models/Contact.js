@@ -9,9 +9,9 @@ var ContactSchema = new Schema({
     email: { type: String, lowercase: true },
     surname: String,
     phone: String,
-    created:Date,
-    modified:Date,
-    address:String
+    created: Date,
+    modified: Date,
+    address: String
 });
 
 ContactSchema
@@ -24,4 +24,4 @@ ContactSchema
         next();
     });
 
-module.exports = mongoose.model('Contact', ContactSchema);
+module.exports = mongoose.model('Contact', ContactSchema, 'contacts');
