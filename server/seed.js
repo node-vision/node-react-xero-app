@@ -1,6 +1,7 @@
 let mongoose = require('mongoose');
 let ShowPiece = require('./models/ShowPiece.js');
 let Contact = require('./models/Contact.js');
+let Invoice = require('./models/Invoice.js');
 var User = require('./models/User.js');
 
 mongoose.connection.db.dropDatabase();
@@ -60,9 +61,7 @@ var user = {
   password: '123456',
   provider: 'local'
 };
-user = new User(user);
-user.hashPassword(user.password);
-user.save();
+new User(user).save((error) => {error && console.log(error)});
 
 var initialContacts = [{
   name: 'Test Name',
@@ -95,6 +94,59 @@ var initialContacts = [{
 },
 ];
 
-initialContacts.forEach(function(value) {
-  new Contact(value).save();
+var contactsResult = Promise.all(initialContacts.map(function(value) {
+  return new Promise((resolve) => {
+    new Contact(value).save((error, data) => {
+      resolve(data);
+    });
+  });
+}));
+
+var initialInvoices = [{
+  name: 'Invoice name 1',
+  dueDate: Date(),
+  paidDate: Date(),
+  items: [{
+    name: 'item name 1',
+    price: 0,
+    quantity: 0,
+    unitPrice: 0,
+    tax: 0
+  }, {
+    name: 'item name 2',
+    price: 0,
+    quantity: 0,
+    unitPrice: 0,
+    tax: 0
+  }],
+  totalPrice: 0,
+  totalTax: 0,
+}, {
+  name: 'Invoice name 2',
+  dueDate: Date(),
+  paidDate: Date(),
+  items: [{
+    name: 'item name 1',
+    price: 0,
+    quantity: 0,
+    unitPrice: 0,
+    tax: 0
+  }, {
+    name: 'item name 2',
+    price: 0,
+    quantity: 0,
+    unitPrice: 0,
+    tax: 0
+  }],
+  totalPrice: 0,
+  totalTax: 0,
+},
+];
+
+contactsResult.then((contacts) => {
+  initialInvoices.forEach(function(value, index) {
+    var invoice = new Invoice(value);
+    invoice.contact = contacts[index]._id;
+    invoice.save();
+  });
 });
