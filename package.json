@@ -27,6 +27,7 @@
     "connect-mongo": "^1.1.0",
     "cookie-parser": "^1.4.0",
     "cors": "^2.6.0",
+    "dateformat": "^1.0.12",
     "ejs": "^2.3.1",
     "express": "^4.12.4",
     "express-session": "^1.12.1",
@@ -47,6 +48,7 @@
     "react-router": "latest",
     "react-tap-event-plugin": "^0.2.1",
     "react-tools": "^0.13.3",
+    "react-addons-update": "^15.0.1",
     "vinyl-source-stream": "^1.1.0"
   }
 }

@@ -26,12 +26,12 @@ module.exports = {
       return (typeof window !== "undefined") ? localStorage.token : undefined;
     },
 
-    logout(cb) {
+    logout(cb, status) {
       get('/auth/signout')
         .then((g) => {
-          delete localStorage.token
-          if (cb) cb()
-          this.onChange(false)
+          delete localStorage.token;
+          if (cb) cb();
+          (status === 401) ? this.onChange(false, '/signin') : this.onChange(false)
         }).catch((err) => {
           console.log(err);
         });

@@ -20,10 +20,15 @@ class Header extends React.Component {
     this._menuClick = this._menuClick.bind(this);
     this.updateAuth = this.updateAuth.bind(this);
   }
-  updateAuth(loggedIn) {
+  updateAuth(loggedIn, redirectTo) {
     this.setState({loggedIn: loggedIn});
+
     if(loggedIn){
       this.props.history.pushState(null, '/');
+    }
+
+    if(!loggedIn && redirectTo){
+      this.props.history.pushState(null, redirectTo);
     }
   }
   componentWillMount() {
@@ -58,12 +63,18 @@ class Header extends React.Component {
               onTouchTap={this._menuClick}
               index={2}>Contacts</MenuItem>
           </Link>
+          <Link to="/invoices" className="menuLink">
+            <MenuItem
+              className="menuItem"
+              onTouchTap={this._menuClick}
+              index={3}>Invoices</MenuItem>
+          </Link>
           {!this.state.loggedIn ? (
             <Link to="/signin" className="menuLink">
               <MenuItem
                 className="menuItem"
                 onTouchTap={this._menuClick}
-                index={3}>
+                index={4}>
                 Sign In
               </MenuItem>
             </Link>
@@ -72,26 +83,26 @@ class Header extends React.Component {
               <MenuItem
                 className="menuItem"
                 onTouchTap={this._menuClick}
-                index={3}>
+                index={4}>
                 Sign Out
               </MenuItem>
             </Link>
           )}
           <div className="menuSubheader">
             <SubheaderMenuItem
-              index={4}
+              index={5}
               text='Social'
               />
           </div>
           <LinkMenuItem
-            index={5}
+            index={6}
             text='GitHub'
             payload="https://github.com/romanmandryk"
             target="_blank"
             className="menuLink"
             />
           <LinkMenuItem
-            index={6}
+            index={7}
             text='Twitter'
             payload="https://twitter.com/RomanMandryk"
             target="_blank"

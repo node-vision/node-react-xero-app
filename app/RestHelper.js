@@ -26,7 +26,9 @@ module.exports = {
         $.ajax({
           url,
           type: 'POST',
-            data,
+          dataType: 'json',
+          contentType: 'application/json',
+          data: JSON.stringify(data),
             success,
             error
         })
@@ -37,7 +39,9 @@ module.exports = {
         $.ajax({
           url,
           type: 'PUT',
-            data,
+          dataType: 'json',
+          contentType: 'application/json',
+            data: JSON.stringify(data),
             success,
             error
         })
