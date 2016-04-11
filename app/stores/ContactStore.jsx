@@ -59,13 +59,16 @@ function ContactStore() {
 
   function updateContact(contact) {
     let index = dataContacts.findIndex(x => x._id === contact._id);
-    dataContacts[index] = contact;
 
-    console.log(contact);
-
-    put(`/api/contacts/${dataContact._id}`, contact).then((data) => {
+    put(`/api/contacts/${contact._id}`, contact).then((data) => {
+      dataContacts[index] = data;
+      dataContact = data;
       triggerListeners();
-    }).catch(() => {
+    }).catch((err) => {
+      if (err.status === 401) {
+        auth.logout(null, err.status);
+      }
+
       console.log('Error on add');
     })
   }

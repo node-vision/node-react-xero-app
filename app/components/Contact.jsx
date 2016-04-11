@@ -7,13 +7,8 @@ import ContactAction from './../stores/ContactActionCreator.jsx';
 import auth from './../services/Authentication';
 import { Link } from 'react-router';
 
-import Table from 'material-ui/lib/table/table';
-import TableHeaderColumn from 'material-ui/lib/table/table-header-column';
-import TableRow from 'material-ui/lib/table/table-row';
-import TableHeader from 'material-ui/lib/table/table-header';
-import TableRowColumn from 'material-ui/lib/table/table-row-column';
-import TableBody from 'material-ui/lib/table/table-body';
 import IconButton from 'material-ui/lib/icon-button';
+import FloatingActionButton from 'material-ui/lib/floating-action-button';
 import FontIcon from 'material-ui/lib/font-icon';
 import TextField from 'material-ui/lib/text-field';
 
@@ -114,68 +109,60 @@ class Contact extends React.Component {
                       className="fa fa-search fa-1"
                       color="rgb(158, 158, 158)"
                     />
-                    Search Contacts
+                    Search contacts
                   </span>
                 }
                 hintStyle={{color: 'rgba(0, 0, 0, 0.41)'}}
               />
-              <ContactAdd />
+              <Link to={'contacts/add'}>
+                <FloatingActionButton
+                  iconClassName="fa fa-plus fa-2"
+                  secondary={true}
+                  />
+              </Link>
             </div>
-            <Table
-              multiSelectable={false}
-              onRowSelection={this._handleRowSelection}
-              onCellClick={this._handleCellClick}
-              >
-              <TableHeader
-                adjustForCheckbox={false}
-                displaySelectAll={false}
-                >
-                <TableRow>
-                  {this.columns.map((column, index) => {
-                    return (
-                      <TableHeaderColumn key={index}>{column}</TableHeaderColumn>
-                    )
-                  })}
-
-                  <TableHeaderColumn style={rowControlsStyle}></TableHeaderColumn>
-                  <TableHeaderColumn style={rowControlsStyle}></TableHeaderColumn>
-                </TableRow>
-              </TableHeader>
-              <TableBody
-                displayRowCheckbox={false}
-                selectable={false}
-                showRowHover={false}
-                deselectOnClickaway={false}
-              >
-                {contacts.map((row, index) => {
+            <table className="u-full-width">
+              <thead>
+              <tr>
+                {this.columns.map((column, index) => {
                   return (
-                    <TableRow key={index} selected={row.selected}>
-                      <TableRowColumn>{row.name}</TableRowColumn>
-                      <TableRowColumn>{row.companyName}</TableRowColumn>
-                      <TableRowColumn>{row.email}</TableRowColumn>
-                      <TableRowColumn>{row.surname}</TableRowColumn>
-                      <TableRowColumn>{row.phone}</TableRowColumn>
-                      <TableRowColumn>{row.address}</TableRowColumn>
-
-                      <TableRowColumn style={rowControlsStyle}>
-                        <IconButton
-                          iconClassName="fa fa-trash fa-fw"
-                          onTouchTap={() => this._handleRemoveContacts.call(this, index)}
-                          />
-                      </TableRowColumn>
-                      <TableRowColumn style={rowControlsStyle}>
-                        <Link to={`/contacts/${row._id}`}>
-                          <IconButton
-                            iconClassName="fa fa-edit fa-fw"
-                            />
-                        </Link>
-                      </TableRowColumn>
-                    </TableRow>
+                    <th key={index}>{column}</th>
                   )
                 })}
-              </TableBody
-              >
-            </Table>
+
+                <th style={rowControlsStyle}>Remove</th>
+                <th style={rowControlsStyle}>Edit</th>
+              </tr>
+              </thead>
+              <tbody>
+              {contacts.map((row, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{row.name}</td>
+                    <td>{row.companyName}</td>
+                    <td>{row.email}</td>
+                    <td>{row.surname}</td>
+                    <td>{row.phone}</td>
+                    <td>{row.address}</td>
+
+                    <td style={rowControlsStyle}>
+                      <IconButton
+                        iconClassName="fa fa-trash fa-fw"
+                        onTouchTap={() => this._handleRemoveContacts.call(this, index)}
+                        />
+                    </td>
+                    <td style={rowControlsStyle}>
+                      <Link to={`/contacts/${row._id}`}>
+                        <IconButton
+                          iconClassName="fa fa-edit fa-fw"
+                          />
+                      </Link>
+                    </td>
+                  </tr>
+                )
+              })}
+              </tbody>
+            </table>
           </div>
         </div>
     )

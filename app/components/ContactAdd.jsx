@@ -1,24 +1,31 @@
 "use strict";
 
 import React from 'react';
+import reactUpdate from 'react-addons-update';
 import ContactAction from './../stores/ContactActionCreator.jsx';
+import auth from './../services/Authentication';
 
-import FloatingActionButton from 'material-ui/lib/floating-action-button';
-import Dialog from 'material-ui/lib/dialog';
+import Card from 'material-ui/lib/card/card';
+import CardActions from 'material-ui/lib/card/card-actions';
+import CardTitle from 'material-ui/lib/card/card-title';
+import CardText from 'material-ui/lib/card/card-text';
 import TextField from 'material-ui/lib/text-field';
+import FlatButton from 'material-ui/lib/flat-button';
+import Snackbar from 'material-ui/lib/snackbar';
 
 class ContactAdd extends React.Component {
   constructor(props, context) {
     super(props, context);
-
-    this.newContact = {};
+    
     this.state = {};
-    this.state.openDialogStandardActions = false;
-
-    this._handleAddDialogTap = this._handleAddDialogTap.bind(this);
-    this._handleRequestClose = this._handleRequestClose.bind(this);
-    this._onDialogSubmit = this._onDialogSubmit.bind(this);
-
+    this.state.contact = {};
+    this.state.loggedIn = auth.loggedIn();
+    this.state.snackbarOpen = false;
+    
+    this._onSubmit = this._onSubmit.bind(this);
+    this._onChange = this._onChange.bind(this);
+    this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
+    
     this._handleNameChange = this._handleNameChange.bind(this);
     this._handleCompanyNameChange = this._handleCompanyNameChange.bind(this);
     this._handleEmailChange = this._handleEmailChange.bind(this);
@@ -26,151 +33,194 @@ class ContactAdd extends React.Component {
     this._handlePhoneChange = this._handlePhoneChange.bind(this);
     this._handleAddressChange = this._handleAddressChange.bind(this);
   }
-
-  _handleAddDialogTap() {
-    this.setState({
-      openDialogStandardActions: true,
-    });
+  
+  componentWillMount() {
   }
-
-  _handleRequestClose() {
-    this.setState({
-      openDialogStandardActions: false,
-    });
+  
+  componentWillUnmount() {
   }
+  
+  _onChange() {
+  }
+  
+  _onSubmit() {
+    let email = (this.checkEmail(this.state.contact.email)) ? this.state.contact.email : '';
 
-  _onDialogSubmit() {
     ContactAction.add({
-      name: this.newContact.name,
-      companyName: this.newContact.companyName,
-      email: this.newContact.email,
-      surname: this.newContact.surname,
-      phone: this.newContact.phone,
-      address: this.newContact.address,
+      name: this.state.contact.name,
+      companyName: this.state.contact.companyName,
+      email: email,
+      surname: this.state.contact.surname,
+      phone: this.state.contact.phone,
+      address: this.state.contact.address,
     });
-
+    
     this.setState({
-      openDialogStandardActions: false,
+      contact: {},
+      snackbarOpen: true,
     });
-
-    this.newContact = {};
   }
-
+  
+  handleSnackbarClose() {
+    this.setState({
+      snackbarOpen: false,
+    });
+  }
+  
+  checkEmail(email) {
+    let emailReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return emailReg.test(email);
+  }
+  
   render() {
-    let standardActions = [
-      {text: 'Cancel'},
-      {text: 'Submit', onTouchTap: this._onDialogSubmit, ref: 'submit'},
-    ];
-
-    let bodyStyles = {
-      overflowY: 'auto'
+    let textFieldStyle = {
+      display: 'block',
+      margin: 'auto',
     };
-
+    
     return (
-      <span>
-        <FloatingActionButton
-          iconClassName="fa fa-plus fa-2"
-          secondary={true}
-          onTouchTap={this._handleAddDialogTap}/>
-
-        <Dialog
-          ref="standardDialog"
-          title="Add contact"
-          actions={standardActions}
-          actionFocus="submit"
-          modal={this.state.modal}
-          open={this.state.openDialogStandardActions}
-          onRequestClose={this._handleRequestClose}
-          autoDetectWindowHeight={true}
-          bodyStyle={bodyStyles}>
-          <form>
-            <TextField
-              hintText="Enter name"
-              errorText={this.state.nameErrorText}
-              floatingLabelText="Name"
-              onChange={this._handleNameChange}
-              value={this.newContact.name}
-              />
-            <br/>
-            <TextField
-              hintText="Enter company name"
-              errorText={this.state.companyNameErrorText}
-              floatingLabelText="Company name"
-              onChange={this._handleCompanyNameChange}
-              value={this.newContact.companyName}
-              />
-            <br/>
-            <TextField
-              hintText="Enter email"
-              errorText={this.state.emailErrorText}
-              floatingLabelText="Email"
-              onChange={this._handleEmailChange}
-              value={this.newContact.email}
-              />
-            <br/>
-            <TextField
-              hintText="Enter surname"
-              errorText={this.state.surnameErrorText}
-              floatingLabelText="Surname"
-              onChange={this._handleSurnameChange}
-              value={this.newContact.surname}
-              />
-            <br/>
-            <TextField
-              hintText="Enter phone"
-              errorText={this.state.phoneErrorText}
-              floatingLabelText="Phone"
-              onChange={this._handlePhoneChange}
-              value={this.newContact.phone}
-              />
-            <br/>
-            <TextField
-              hintText="Enter address"
-              errorText={this.state.addressErrorText}
-              floatingLabelText="Address"
-              onChange={this._handleAddressChange}
-              value={this.newContact.address}
-              />
-            <br/>
-          </form>
-        </Dialog>
-      </span>
+      <div className="container marginTop">
+        <Card>
+          <CardTitle title="Update contact" subtitle="" />
+          <CardText>
+            <form>
+              <TextField
+                hintText="Enter name"
+                errorText={this.state.nameErrorText}
+                floatingLabelText="Name"
+                onChange={this._handleNameChange}
+                value={this.state.contact.name}
+                style={textFieldStyle}
+                />
+              <br/>
+              <TextField
+                hintText="Enter company name"
+                errorText={this.state.companyNameErrorText}
+                floatingLabelText="Company name"
+                onChange={this._handleCompanyNameChange}
+                value={this.state.contact.companyName}
+                style={textFieldStyle}
+                />
+              <br/>
+              <TextField
+                hintText="Enter email"
+                errorText={this.state.emailErrorText}
+                floatingLabelText="Email"
+                onChange={this._handleEmailChange}
+                value={this.state.contact.email}
+                type={'email'}
+                style={textFieldStyle}
+                />
+              <br/>
+              <TextField
+                hintText="Enter surname"
+                errorText={this.state.surnameErrorText}
+                floatingLabelText="Surname"
+                onChange={this._handleSurnameChange}
+                value={this.state.contact.surname}
+                style={textFieldStyle}
+                />
+              <br/>
+              <TextField
+                hintText="Enter phone"
+                errorText={this.state.phoneErrorText}
+                floatingLabelText="Phone"
+                onChange={this._handlePhoneChange}
+                value={this.state.contact.phone}
+                style={textFieldStyle}
+                />
+              <br/>
+              <TextField
+                hintText="Enter address"
+                errorText={this.state.addressErrorText}
+                floatingLabelText="Address"
+                onChange={this._handleAddressChange}
+                value={this.state.contact.address}
+                style={textFieldStyle}
+                />
+              <br/>
+            </form>
+          </CardText>
+          <CardActions>
+            <FlatButton label="Update" onTouchTap={this._onSubmit}/>
+          </CardActions>
+          <Snackbar
+            open={this.state.snackbarOpen}
+            message="Contact updated"
+            autoHideDuration={4000}
+            onRequestClose={this.handleSnackbarClose}
+            />
+        </Card>
+      </div>
     )
   }
-
+  
   _handleNameChange(e) {
-    this.newContact.name = e.target.value;
+    let newState = reactUpdate(this.state, {
+      contact: {
+        name: {$set: e.target.value}
+      }
+    });
+    
+    this.setState(newState);
   }
-
+  
   _handleCompanyNameChange(e) {
-    this.newContact.companyName = e.target.value;
+    let newState = reactUpdate(this.state, {
+      contact: {
+        companyName: {$set: e.target.value}
+      }
+    });
+    
+    this.setState(newState);
   }
-
+  
   _handleEmailChange(e) {
-    this.newContact.email = e.target.value;
-
-    let errorMsg = '';
-    let emailReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-    if (e.target.value && !emailReg.test(e.target.value)) {
+    let email = e.target.value,
+      errorMsg = '';
+    
+    if (e.target.value && !this.checkEmail(e.target.value)) {
       errorMsg ='Enter a valid email address';
     }
-
-    this.setState({
-      emailErrorText: errorMsg
+    
+    let newState = reactUpdate(this.state, {
+      contact: {
+        email: {$set: email}
+      },
+      emailErrorText: {$set: errorMsg}
     });
+    
+    this.setState(newState);
   }
-
+  
   _handleSurnameChange(e) {
-    this.newContact.surname = e.target.value;
+    let newState = reactUpdate(this.state, {
+      contact: {
+        surname: {$set: e.target.value}
+      }
+    });
+    
+    this.setState(newState);
   }
-
+  
   _handlePhoneChange(e) {
-    this.newContact.phone = e.target.value;
+    let newState = reactUpdate(this.state, {
+      contact: {
+        phone: {$set: e.target.value}
+      }
+    });
+    
+    this.setState(newState);
   }
-
+  
   _handleAddressChange(e) {
-    this.newContact.address = e.target.value;
+    let newState = reactUpdate(this.state, {
+      contact: {
+        address: {$set: e.target.value}
+      }
+    });
+    
+    this.setState(newState);
   }
 }
 

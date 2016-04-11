@@ -1,6 +1,7 @@
 "use strict";
 
 import React from 'react';
+import reactUpdate from 'react-addons-update';
 import ContactStore from './../stores/ContactStore.jsx';
 import ContactAction from './../stores/ContactActionCreator.jsx';
 import auth from './../services/Authentication';
@@ -22,10 +23,10 @@ class ContactUpdate extends React.Component {
     super(props, context);
 
     ContactStore.fetchContact(props.params.id);
-    this.newContact = {};
 
     this.state = {};
     this.state.contact = context.data;
+    this.state.originalContact = Object.assign({}, this.state.contact.slice());
     this.state.loggedIn = auth.loggedIn();
     this.state.snackbarOpen = false;
 
@@ -51,16 +52,19 @@ class ContactUpdate extends React.Component {
 
   _onChange() {
     this.setState({
-      contact: getContact()
+      contact: getContact(),
+      originalContact: getContact()
     });
   }
 
   _onSubmit() {
+    let email = (this.checkEmail(this.state.contact.email)) ? this.state.contact.email : this.state.originalContact.email;
+
     ContactAction.update({
       _id: this.state.contact._id,
       name: this.state.contact.name,
       companyName: this.state.contact.companyName,
-      email: this.state.contact.email,
+      email: email,
       surname: this.state.contact.surname,
       phone: this.state.contact.phone,
       address: this.state.contact.address,
@@ -77,9 +81,18 @@ class ContactUpdate extends React.Component {
     });
   }
 
+  checkEmail(email) {
+    let emailReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return emailReg.test(email);
+  }
+
   render() {
-    if (!this.state.contact || !this.state.loggedIn) {
-      return false;
+    if (!this.state.contact) {
+      return (<div>data not found</div>);
+    }
+
+    if (Object.keys(this.state.contact).length <= 0) {
+      return (<div>data not found</div>);
     }
 
     let textFieldStyle = {
@@ -98,7 +111,7 @@ class ContactUpdate extends React.Component {
                 errorText={this.state.nameErrorText}
                 floatingLabelText="Name"
                 onChange={this._handleNameChange}
-                defaultValue={this.state.contact.name}
+                value={this.state.contact.name}
                 style={textFieldStyle}
                 />
               <br/>
@@ -117,6 +130,7 @@ class ContactUpdate extends React.Component {
                 floatingLabelText="Email"
                 onChange={this._handleEmailChange}
                 value={this.state.contact.email}
+                type={'email'}
                 style={textFieldStyle}
                 />
               <br/>
@@ -164,39 +178,79 @@ class ContactUpdate extends React.Component {
   }
 
   _handleNameChange(e) {
-    this.state.contact.name = e.target.value;
+    let newState = reactUpdate(this.state, {
+      contact: {
+        name: {$set: e.target.value}
+      }
+    });
+
+    this.setState(newState);
   }
 
   _handleCompanyNameChange(e) {
-    this.state.contact.companyName = e.target.value;
+    let newState = reactUpdate(this.state, {
+      contact: {
+        companyName: {$set: e.target.value}
+      }
+    });
+
+    this.setState(newState);
   }
 
   _handleEmailChange(e) {
-    this.state.contact.email = e.target.value;
+    let email = e.target.value,
+      errorMsg = '';
 
-    let errorMsg = '';
-    let emailReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-    if (e.target.value && !emailReg.test(e.target.value)) {
+    if (e.target.value && !this.checkEmail(e.target.value)) {
       errorMsg ='Enter a valid email address';
     }
 
-    this.setState({
-      emailErrorText: errorMsg
+    let newState = reactUpdate(this.state, {
+      contact: {
+        email: {$set: email}
+      },
+      emailErrorText: {$set: errorMsg}
     });
+
+    this.setState(newState);
   }
 
   _handleSurnameChange(e) {
-    this.state.contact.surname = e.target.value;
+    let newState = reactUpdate(this.state, {
+      contact: {
+        surname: {$set: e.target.value}
+      }
+    });
+
+    this.setState(newState);
   }
 
   _handlePhoneChange(e) {
-    this.state.contact.phone = e.target.value;
+    let newState = reactUpdate(this.state, {
+      contact: {
+        phone: {$set: e.target.value}
+      }
+    });
+
+    this.setState(newState);
   }
 
   _handleAddressChange(e) {
-    this.state.contact.address = e.target.value;
+    let newState = reactUpdate(this.state, {
+      contact: {
+        address: {$set: e.target.value}
+      }
+    });
+
+    this.setState(newState);
   }
 }
+
+ContactUpdate.contextTypes = {
+  data: React.PropTypes.oneOfType([
+    React.PropTypes.object,
+    React.PropTypes.array
+  ]).isRequired
+};
 
 export default ContactUpdate;
