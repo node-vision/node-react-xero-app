@@ -90,12 +90,6 @@ class Contact extends React.Component {
       contacts = this._getFoundContacts(contacts, searchString);
     }
 
-    if (!this.state.loggedIn) {
-      rowControlsStyle = {
-        display: 'none'
-      }
-    }
-
     return (
         <div>
           <div className="container marginTop">

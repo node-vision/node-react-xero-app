@@ -81,7 +81,7 @@ class ContactAdd extends React.Component {
     return (
       <div className="container marginTop">
         <Card>
-          <CardTitle title="Update contact" subtitle="" />
+          <CardTitle title="Add contact" subtitle="" />
           <CardText>
             <form>
               <TextField
@@ -142,11 +142,11 @@ class ContactAdd extends React.Component {
             </form>
           </CardText>
           <CardActions>
-            <FlatButton label="Update" onTouchTap={this._onSubmit}/>
+            <FlatButton label="Add" onTouchTap={this._onSubmit} primary={true}/>
           </CardActions>
           <Snackbar
             open={this.state.snackbarOpen}
-            message="Contact updated"
+            message="Contact added"
             autoHideDuration={4000}
             onRequestClose={this.handleSnackbarClose}
             />

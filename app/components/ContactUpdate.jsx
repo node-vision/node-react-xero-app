@@ -5,6 +5,7 @@ import reactUpdate from 'react-addons-update';
 import ContactStore from './../stores/ContactStore.jsx';
 import ContactAction from './../stores/ContactActionCreator.jsx';
 import auth from './../services/Authentication';
+import { Link } from 'react-router';
 
 import Card from 'material-ui/lib/card/card';
 import CardActions from 'material-ui/lib/card/card-actions';
@@ -69,6 +70,8 @@ class ContactUpdate extends React.Component {
       phone: this.state.contact.phone,
       address: this.state.contact.address,
     });
+
+    this.context.router.push('/contacts');
 
     this.setState({
       snackbarOpen: true,
@@ -164,7 +167,10 @@ class ContactUpdate extends React.Component {
             </form>
           </CardText>
           <CardActions>
-            <FlatButton label="Update" onTouchTap={this._onSubmit}/>
+            <FlatButton label="Update" onTouchTap={this._onSubmit} primary={true}/>
+            <Link to={`/contacts`}>
+              <FlatButton label="Cancel"/>
+            </Link>
           </CardActions>
           <Snackbar
             open={this.state.snackbarOpen}
@@ -250,7 +256,8 @@ ContactUpdate.contextTypes = {
   data: React.PropTypes.oneOfType([
     React.PropTypes.object,
     React.PropTypes.array
-  ]).isRequired
+  ]).isRequired,
+  router: React.PropTypes.func.isRequired
 };
 
 export default ContactUpdate;

@@ -8,6 +8,6 @@ module.exports = function(app){
 
   app.route('/api/invoices/:id')
 	.get(invoices.read)
-	.delete(users.requiresLogin, invoices.delete)
-	.put(users.requiresLogin, invoices.update);
+	.delete(invoices.delete)
+	.put(invoices.update);
 }

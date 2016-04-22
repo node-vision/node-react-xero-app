@@ -20,6 +20,7 @@ import DatePicker from 'material-ui/lib/date-picker/date-picker';
 import AutoComplete from 'material-ui/lib/auto-complete';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import IconButton from 'material-ui/lib/icon-button';
+import Dialog from 'material-ui/lib/dialog';
 
 function getInvoice() {
   return InvoiceStore.getInvoice();
@@ -42,6 +43,7 @@ class InvoiceUpdate extends React.Component {
     this.state.contacts = context.data.contacts;
     this.state.loggedIn = auth.loggedIn();
     this.state.snackbarOpen = false;
+    this.state.openDialogStandardActions = false;
 
     this._onSubmit = this._onSubmit.bind(this);
     this._onChange = this._onChange.bind(this);
@@ -58,6 +60,8 @@ class InvoiceUpdate extends React.Component {
 
     this.addItem = this.addItem.bind(this);
     this.removeItem = this.removeItem.bind(this);
+    this.openDialog = this.openDialog.bind(this);
+    this.closeDialog = this.closeDialog.bind(this);
     this._handleItemNameChange = this._handleItemNameChange.bind(this);
     this._handleItemPriceChange = this._handleItemPriceChange.bind(this);
     this._handleItemQuantityChange = this._handleItemQuantityChange.bind(this);
@@ -101,6 +105,8 @@ class InvoiceUpdate extends React.Component {
       created: this.state.invoice.created,
     });
 
+    this.context.router.push('/invoices');
+
     this.setState({
       snackbarOpen: true,
     });
@@ -112,7 +118,8 @@ class InvoiceUpdate extends React.Component {
         items: {
           $push: [this.newItem]
         }
-      }
+      },
+      openDialogStandardActions: {$set: false}
     });
 
     this.setState(newState);
@@ -128,6 +135,18 @@ class InvoiceUpdate extends React.Component {
     });
 
     this.setState(newState);
+  }
+
+  openDialog() {
+    this.setState({
+      openDialogStandardActions: true,
+    });
+  }
+
+  closeDialog() {
+    this.setState({
+      openDialogStandardActions: false,
+    });
   }
 
   getContactList(contacts) {
@@ -239,63 +258,7 @@ class InvoiceUpdate extends React.Component {
               <br/>
             </form>
             <h5>Items</h5>
-            <form>
-              <TextField
-                hintText="Enter name"
-                errorText={this.state.itemNameErrorText}
-                floatingLabelText="Name"
-                onChange={this._handleItemNameChange}
-                value={this.newItem.name}
-                fullWidth={true}
-                style={textFieldStyle}
-                />
-              <br/>
-              <TextField
-                hintText="Enter price"
-                errorText={this.state.itemPriceErrorText}
-                floatingLabelText="Price"
-                onChange={this._handleItemPriceChange}
-                value={this.newItem.price}
-                fullWidth={true}
-                style={textFieldStyle}
-                type={'number'}
-                />
-              <br/>
-              <TextField
-                hintText="Enter quantity"
-                errorText={this.state.itemQuantityErrorText}
-                floatingLabelText="Quantity"
-                onChange={this._handleItemQuantityChange}
-                value={this.newItem.quantity}
-                fullWidth={true}
-                style={textFieldStyle}
-                type={'number'}
-                />
-              <br/>
-              <TextField
-                hintText="Enter unit price"
-                errorText={this.state.itemUnitPriceErrorText}
-                floatingLabelText="Unit price"
-                onChange={this._handleItemUnitPriceChange}
-                value={this.newItem.unitPrice}
-                fullWidth={true}
-                style={textFieldStyle}
-                type={'number'}
-                />
-              <br/>
-              <TextField
-                hintText="Enter tax"
-                errorText={this.state.itemTaxErrorText}
-                floatingLabelText="Tax"
-                onChange={this._handleItemTaxChange}
-                value={this.newItem.tax}
-                fullWidth={true}
-                style={textFieldStyle}
-                type={'number'}
-                />
-              <br/>
-              <FlatButton label="Add item" onTouchTap={this.addItem}/>
-            </form>
+            <FlatButton label="Add new Item" onTouchTap={this.openDialog} secondary={true}/>
             <table className="u-full-width">
               <thead>
               <tr>
@@ -373,7 +336,10 @@ class InvoiceUpdate extends React.Component {
             </table>
           </CardText>
           <CardActions>
-            <FlatButton label="Update" onTouchTap={this._onSubmit}/>
+            <FlatButton label="Update" onTouchTap={this._onSubmit} primary={true}/>
+            <Link to={`/invoices`}>
+              <FlatButton label="Cancel"/>
+            </Link>
           </CardActions>
           <Snackbar
             open={this.state.snackbarOpen}
@@ -382,6 +348,79 @@ class InvoiceUpdate extends React.Component {
             onRequestClose={this.handleSnackbarClose}
             />
         </Card>
+        <Dialog
+          ref="standardDialog"
+          title="Add new Item"
+          actions={[
+            {text: 'Cancel'},
+            {text: 'Submit', onTouchTap: this.addItem, ref: 'submit'},
+          ]}
+          actionFocus="submit"
+          modal={this.state.modal}
+          open={this.state.openDialogStandardActions}
+          onRequestClose={this.closeDialog}
+          bodyStyle={{
+            overflowY: 'auto',
+            maxHeight: '400px',
+          }}
+          >
+            <form>
+              <TextField
+                hintText="Enter name"
+                errorText={this.state.itemNameErrorText}
+                floatingLabelText="Name"
+                onChange={this._handleItemNameChange}
+                value={this.newItem.name}
+                fullWidth={true}
+                style={textFieldStyle}
+                />
+              <br/>
+              <TextField
+                hintText="Enter price"
+                errorText={this.state.itemPriceErrorText}
+                floatingLabelText="Price"
+                onChange={this._handleItemPriceChange}
+                value={this.newItem.price}
+                fullWidth={true}
+                style={textFieldStyle}
+                type={'number'}
+                />
+              <br/>
+              <TextField
+                hintText="Enter quantity"
+                errorText={this.state.itemQuantityErrorText}
+                floatingLabelText="Quantity"
+                onChange={this._handleItemQuantityChange}
+                value={this.newItem.quantity}
+                fullWidth={true}
+                style={textFieldStyle}
+                type={'number'}
+                />
+              <br/>
+              <TextField
+                hintText="Enter unit price"
+                errorText={this.state.itemUnitPriceErrorText}
+                floatingLabelText="Unit price"
+                onChange={this._handleItemUnitPriceChange}
+                value={this.newItem.unitPrice}
+                fullWidth={true}
+                style={textFieldStyle}
+                type={'number'}
+                />
+              <br/>
+              <TextField
+                hintText="Enter tax"
+                errorText={this.state.itemTaxErrorText}
+                floatingLabelText="Tax"
+                onChange={this._handleItemTaxChange}
+                value={this.newItem.tax}
+                fullWidth={true}
+                style={textFieldStyle}
+                type={'number'}
+                />
+              <br/>
+            </form>
+        </Dialog>
       </div>
     )
   }
@@ -567,7 +606,8 @@ InvoiceUpdate.contextTypes = {
   data: React.PropTypes.oneOfType([
     React.PropTypes.object,
     React.PropTypes.array
-  ]).isRequired
+  ]).isRequired,
+  router: React.PropTypes.func.isRequired
 };
 
 export default InvoiceUpdate;

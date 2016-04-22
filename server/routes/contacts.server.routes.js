@@ -8,6 +8,6 @@ module.exports = function(app){
 
   app.route('/api/contacts/:id')
 	.get(contacts.read)
-	.delete(users.requiresLogin, contacts.delete)
-	.put(users.requiresLogin, contacts.update);
+	.delete(contacts.delete)
+	.put(contacts.update);
 }

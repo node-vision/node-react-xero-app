@@ -4,6 +4,7 @@ import React from 'react';
 import GridList from 'material-ui/lib/grid-list/grid-list';
 import GridTile from 'material-ui/lib/grid-list/grid-tile';
 import IconButton from 'material-ui/lib/icon-button';
+import FlatButton from 'material-ui/lib/flat-button';
 import { Link } from 'react-router';
 
 function getCatalog() {
@@ -76,6 +77,10 @@ class ShowCase extends React.Component {
           })}
         </GridList>
         <br/>
+        <FlatButton label="Authenticate with Xero" secondary={true} style={{
+          margin: 'auto',
+          display: 'block',
+        }}/>
       </div>
 
     </div>

@@ -90,12 +90,6 @@ class Invoice extends React.Component {
       invoices = this._getFoundInvoices(invoices, searchString);
     }
 
-    if (!this.state.loggedIn) {
-      rowControlsStyle = {
-        display: 'none'
-      }
-    }
-
     return (
         <div>
           <div className="container marginTop">
