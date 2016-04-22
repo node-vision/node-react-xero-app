@@ -9,19 +9,17 @@ import CardTitle from 'material-ui/lib/card/card-title';
 import Paper from 'material-ui/lib/paper';
 import IconButton from 'material-ui/lib/icon-button';
 import FontIcon from 'material-ui/lib/font-icon';
-import ShowPieceStore from './../stores/ShowPieceStore.jsx';
-import ShowPieceAction from './../stores/ShowPieceActionCreator.jsx';
 import RaisedButton from 'material-ui/lib/raised-button';
 import { Link } from 'react-router';
 import auth from './../services/Authentication';
 
 function getShowPiece() {
-  return ShowPieceStore.getShowPiece();
+
 }
 class ShowPiece extends React.Component {
   constructor(props, context){
     super(props, context);
-    ShowPieceStore.fetchShowPiece(props.params.id);
+
     this.state = {};
     this.state.piece = context.data;
     this._onChange = this._onChange.bind( this );
@@ -29,25 +27,19 @@ class ShowPiece extends React.Component {
     this.state.loggedIn = auth.loggedIn();
   }
   componentWillMount() {
-    ShowPieceStore.onChange(this._onChange);
+
   }
   componentWillUnmount() {
-    ShowPieceStore.removeChangeListener( this._onChange );
+
   }
   _onChange() {
-    this.setState( {'piece': getShowPiece()} );
+
   }
   _likeHandle(e){
-    if(!this.liked){
-      ShowPieceAction.like(this.state.piece);
-      this.liked = true;
-    }else{
-      ShowPieceAction.unlike(this.state.piece);
-      this.liked = false;
-    }
+
   }
   _delete(e){
-    ShowPieceAction.delete(this.state.piece);
+
   }
 
   render(){

@@ -6,6 +6,7 @@ var mongoose = require('mongoose'),
 var InvoiceSchema = new Schema({
     name: String,
     contact: {type: mongoose.Schema.Types.ObjectId, ref: 'Contact'},
+    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     dueDate:Date,
     paidDate:Date,
     items: [{
@@ -14,17 +15,15 @@ var InvoiceSchema = new Schema({
         quantity:{type: Number, default:0},
         unitPrice: {type: Number, default:0},
         tax: {type: Number, default:0}
-}],
+    }],
     totalPrice: Number,
     totalTax: Number,
-    created:Date
-
+    created:Date,
+    xeroContactId: String
 }, {
     toObject: {virtuals:true},
     toJSON: {virtuals:true}
 });
-
-
 
 InvoiceSchema
     .pre('save', function(next) {

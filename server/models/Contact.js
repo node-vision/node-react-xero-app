@@ -11,7 +11,9 @@ var ContactSchema = new Schema({
     phone: String,
     created: Date,
     modified: Date,
-    address: String
+    address: String,
+    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    xeroContactId: String
 });
 
 ContactSchema
