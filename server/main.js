@@ -69,6 +69,7 @@ require('./routes/users.server.routes.js')(app);
 require('./routes/showpieces.server.routes.js')(app);
 require('./routes/contacts.server.routes.js')(app);
 require('./routes/invoices.server.routes.js')(app);
+require('./routes/xero.server.routes.js')(app);
 
 
 app.use(function(req, res, next) {

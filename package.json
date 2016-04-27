@@ -1,7 +1,7 @@
 {
-  "name": "node-react-invoice-xero-app",
+  "name": "node-react-xero-app",
   "version": "0.0.1",
-  "description": "web app demonstrating creation of contacts and invoices in React based UI and synchronizing it with Xero accouning software",
+  "description": "web app demonstrating creation of contacts and invoices with React and Material UI and synchronizing it with Xero accouning software",
   "main": "index.js",
   "scripts": {
     "start": "node server/server.js"
@@ -38,17 +38,19 @@
     "jquery": "^2.1.4",
     "lodash": "^3.10.1",
     "material-ui": "^0.13.3",
+    "moment": "^2.13.0",
     "mongoose": "^4.0.3",
     "node-jsx": "^0.13.3",
     "nodemailer": "^1.11.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "react": "^0.14.3",
+    "react-addons-update": "^0.14.0",
     "react-dom": "^0.14.3",
     "react-router": "latest",
     "react-tap-event-plugin": "^0.2.1",
     "react-tools": "^0.13.3",
-    "react-addons-update": "^15.0.1",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "xero-client": "0.0.1"
   }
 }

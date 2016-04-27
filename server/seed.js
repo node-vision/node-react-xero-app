@@ -103,44 +103,40 @@ var contactsResult = Promise.all(initialContacts.map(function(value) {
 }));
 
 var initialInvoices = [{
-  name: 'Invoice name 1',
+  name: 'Invoice 101',
   dueDate: Date(),
   paidDate: Date(),
   items: [{
-    name: 'item name 1',
-    price: 0,
-    quantity: 0,
-    unitPrice: 0,
-    tax: 0
+    name: 'Nuts and bolts',
+    price: 55,
+    quantity: 1,
+    unitPrice: 55,
+    tax: 5.5
   }, {
-    name: 'item name 2',
-    price: 0,
-    quantity: 0,
-    unitPrice: 0,
-    tax: 0
-  }],
-  totalPrice: 0,
-  totalTax: 0,
+    name: 'Labour',
+    price: 200,
+    quantity: 2,
+    unitPrice: 100,
+    tax: 20
+  }]
 }, {
-  name: 'Invoice name 2',
+  name: 'Invoice 102',
   dueDate: Date(),
   paidDate: Date(),
   items: [{
-    name: 'item name 1',
-    price: 0,
-    quantity: 0,
-    unitPrice: 0,
-    tax: 0
+    name: 'Paint',
+    price: 500,
+    quantity: 5,
+    unitPrice: 100,
+    tax: 50
   }, {
-    name: 'item name 2',
-    price: 0,
-    quantity: 0,
-    unitPrice: 0,
-    tax: 0
-  }],
-  totalPrice: 0,
-  totalTax: 0,
-},
+    name: 'Labour',
+    price: 700,
+    quantity: 7,
+    unitPrice: 100,
+    tax: 770
+  }]
+}
 ];
 
 contactsResult.then((contacts) => {

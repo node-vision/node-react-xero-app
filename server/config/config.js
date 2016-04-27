@@ -1,14 +1,13 @@
-/**
- * default app properties - can be overridden on test or production environment with same name environment variables
- * e.g. export MAX_DRIVERS_RETURNED=5 on linux or set MAX_DRIVERS_RETURNED=5 on windows
- *
- */
 
+var DOMAIN = process.env.DOMAIN || 'http://localhost:7777';
 var baseProperties = {
     gmail:{
         user: 'demo',
         password: 'demo'
-    }
+    },
+    xeroConsumerKey:'HEELXGWJJOASNFBAPBV8AO4M6CGDXO',
+    xeroConsumerSecret:'UFHJXUWK2IEOBSQQ8CNGC9BLYMSQMS',
+    xeroCallbackUrl: DOMAIN + '/api/xero/callback'
 };
 
 

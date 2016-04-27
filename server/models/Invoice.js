@@ -16,8 +16,6 @@ var InvoiceSchema = new Schema({
         unitPrice: {type: Number, default:0},
         tax: {type: Number, default:0}
     }],
-    totalPrice: Number,
-    totalTax: Number,
     created:Date,
     xeroContactId: String
 }, {
@@ -34,5 +32,13 @@ InvoiceSchema
         next();
     });
 
+InvoiceSchema.virtual('totalPrice')
+  .get(function() {
+      return this.items.reduce(function(prev, current){return prev + current.price}, 0);
+  });
+InvoiceSchema.virtual('totalTax')
+  .get(function() {
+      return this.items.reduce(function(prev, current){return prev + current.tax}, 0);
+  });
 
 module.exports = mongoose.model('Invoice', InvoiceSchema);

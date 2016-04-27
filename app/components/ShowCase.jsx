@@ -5,6 +5,8 @@ import GridList from 'material-ui/lib/grid-list/grid-list';
 import GridTile from 'material-ui/lib/grid-list/grid-tile';
 import IconButton from 'material-ui/lib/icon-button';
 import FlatButton from 'material-ui/lib/flat-button';
+import XeroStore from './../stores/XeroStore.jsx';
+import XeroAction from './../stores/XeroActionCreator.jsx';
 import { Link } from 'react-router';
 
 function getCatalog() {
@@ -26,6 +28,7 @@ class ShowCase extends React.Component {
     this.state = {};
     this.state.pieces = getCatalog();
     this._onChange = this._onChange.bind( this );
+    this._xeroAuthenticate = this._xeroAuthenticate.bind( this );
   }
   componentWillMount() {
 
@@ -34,10 +37,19 @@ class ShowCase extends React.Component {
 
   }
   _onChange() {
-    this.setState( {'pieces':getCatalog()} );
+    this.setState( {'pieces':getCatalog(), 'xeroAuthenticated':false} );
   }
   _handleSearch(e){
 
+  }
+  _xeroAuthenticate(){    
+    var strWindowFeatures = "menubar=no,location=no,resizable=yes,scrollbars=no,status=no,width=1000,height=480";
+    window.open("/api/xero/authenticate", "Authorize App to connect with XERO", strWindowFeatures);
+    //this should poll server or wait for notification that user authenticated to Xero.
+    this.setState({'pieces':getCatalog(), 'xeroAuthenticated':true});
+  }
+  _xeroStartSync(){
+    XeroAction.startSync();
   }
   render(){
     var pieces = this.state.pieces;
@@ -77,10 +89,14 @@ class ShowCase extends React.Component {
           })}
         </GridList>
         <br/>
-        <FlatButton label="Authenticate with Xero" secondary={true} style={{
+        { ! this.state.xeroAuthenticated ? <FlatButton label="Authenticate with Xero" onTouchTap={this._xeroAuthenticate} secondary={true} style={{
           margin: 'auto',
-          display: 'block',
-        }}/>
+          display: 'block'
+        }}/> : <FlatButton label="Sync with Xero" onTouchTap={this._xeroStartSync} primary={true} style={{
+          margin: 'auto',
+          display: 'block'
+        }}/> }
+
       </div>
 
     </div>
