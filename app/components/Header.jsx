@@ -36,7 +36,7 @@ class Header extends React.Component {
   }
 
   render(){
-    let _title = "node-react-invoice-xero-app";
+    let _title = "node-react-xero-app";
     return (
       <div id="page_container">
         <LeftNav
@@ -97,7 +97,7 @@ class Header extends React.Component {
           <LinkMenuItem
             index={6}
             text='GitHub'
-            payload="https://github.com/romanmandryk"
+            payload="https://github.com/node-vision"
             target="_blank"
             className="menuLink"
             />
@@ -124,7 +124,7 @@ class Header extends React.Component {
           <a
             className="social_links"
             target="_blank"
-            href="https://github.com/romanmandryk">
+            href="https://github.com/node-vision">
             <FontIcon
               className="fa fa-github"
               color="white"/>

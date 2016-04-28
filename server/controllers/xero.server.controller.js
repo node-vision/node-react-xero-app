@@ -32,6 +32,12 @@ exports.startSync = function(req, res){
   });
 };
 
+exports.syncInfo = function(req, res){
+  xeroClient.syncStatus(req, function(json) {
+    res.json(json);
+  });
+};
+
 exports.syncContacts = function(req, callback){
   var existingContacts = {};
   var existingContactsArr;

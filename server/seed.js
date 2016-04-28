@@ -64,34 +64,34 @@ var user = {
 new User(user).save((error) => {error && console.log(error)});
 
 var initialContacts = [{
-  name: 'Test Name',
-  companyName: 'Test Company Name',
-  email: 'email@test.com',
-  surname: 'Test Surname',
-  phone: 'Test Phone',
-  address: 'Test Address'
+  name: 'John',
+  companyName: '',
+  email: 'john@test.com',
+  surname: 'Snow',
+  phone: '02456789',
+  address: '13 The Wall'
 }, {
-  name: 'Test Name 2',
-  companyName: 'Test Company Name 2',
-  email: 'email2@test.com',
-  surname: 'Test Surname 2',
-  phone: 'Test Phone 2',
-  address: 'Test Address 2'
+  name: 'Arya',
+  companyName: '',
+  email: 'arya@test.com',
+  surname: 'Stark',
+  phone: '02456789',
+  address: '21 Stairs street, Braavos'
 }, {
-  name: 'Test Name 3',
-  companyName: 'Test Company Name 3',
-  email: 'email3@test.com',
-  surname: 'Test Surname 3',
-  phone: 'Test Phone 3',
-  address: 'Test Address 3'
+  name: 'Walker',
+  companyName: 'White Walkers',
+  email: 'walker@test.com',
+  surname: 'White',
+  phone: '02456789',
+  address: '55 Beyond the Wall'
 }, {
-  name: 'Test Name 4',
-  companyName: 'Test Company Name 4',
-  email: 'email4@test.com',
-  surname: 'Test Surname 4',
-  phone: 'Test Phone 4',
-  address: 'Test Address 4'
-},
+  name: 'Daenerys',
+  companyName: '',
+  email: 'daenerys@test.com',
+  surname: 'Targaryen',
+  phone: '02456789',
+  address: '78 Dragon Ave, Meereen'
+}
 ];
 
 var contactsResult = Promise.all(initialContacts.map(function(value) {

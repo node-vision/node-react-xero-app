@@ -1,5 +1,5 @@
 
-var DOMAIN = process.env.DOMAIN || 'http://localhost:7777';
+var DOMAIN = process.env.DOMAIN || 'http://localhost:9003';
 var baseProperties = {
     gmail:{
         user: 'demo',

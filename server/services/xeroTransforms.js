@@ -60,7 +60,7 @@ exports.localContactToXeroContact = function(localContact){
     xeroContact.ContactID = localContact.xeroContactId;
   }
   xeroContact.ContactNumber  = localContact._id.toString();
-  xeroContact.Name  = localContact.companyName;
+  xeroContact.Name  = localContact.companyName || (localContact.name + ' ' + localContact.surname);
   xeroContact.FirstName  = localContact.name;
   xeroContact.LastName  = localContact.surname;
   xeroContact.EmailAddress  = localContact.email;
