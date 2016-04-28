@@ -1,4 +1,7 @@
 # Node React app for adding contacts and invoices demonstrating Xero integration
+
+![Header](https://cloud.githubusercontent.com/assets/7701755/14883819/ebac3ec4-0d83-11e6-8c70-920d3ab081a1.png)
+
 ### Web application allows to create update and delete contacts and invoices. It uses React and Material UI on frontend and Node.JS, Express, MongoDB on backend. (MERN stack). The app allows to synchronize contacts and invoices with Xero accouning software.
  
 ## To run the app:
