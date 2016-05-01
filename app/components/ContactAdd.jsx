@@ -4,6 +4,7 @@ import React from 'react';
 import reactUpdate from 'react-addons-update';
 import ContactAction from './../stores/ContactActionCreator.jsx';
 import auth from './../services/Authentication';
+import { Link } from 'react-router';
 
 import Card from 'material-ui/lib/card/card';
 import CardActions from 'material-ui/lib/card/card-actions';
@@ -143,6 +144,9 @@ class ContactAdd extends React.Component {
           </CardText>
           <CardActions>
             <FlatButton label="Add" onTouchTap={this._onSubmit} primary={true}/>
+            <Link to={`/contacts`}>
+              <FlatButton label="Cancel"/>
+            </Link>
           </CardActions>
           <Snackbar
             open={this.state.snackbarOpen}
