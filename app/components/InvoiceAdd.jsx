@@ -324,6 +324,9 @@ class InvoiceAdd extends React.Component {
           </CardText>
           <CardActions>
             <FlatButton label="Add" onTouchTap={this._onSubmit} primary={true}/>
+            <Link to={`/invoices`}>
+              <FlatButton label="Cancel"/>
+            </Link>
           </CardActions>
           <Snackbar
             open={this.state.snackbarOpen}

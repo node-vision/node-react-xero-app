@@ -11,22 +11,11 @@ import Signin from './Signin.jsx';
 import SignOut from './SignOut.jsx';
 import About from './About.jsx';
 import Header from './Header.jsx';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
-import createMemoryHistory from 'history/lib/createMemoryHistory';
-import { Router, Route, IndexRoute } from 'react-router';
-
-var history;
-if (typeof(window) !== 'undefined'){
-  history = createBrowserHistory();
-}
-else {
-  history = createMemoryHistory(); //This kind of history is needed for server-side rendering.
-}
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 export default (props) => {
   return (
-
-    <Router history={history}>
+    <Router history={browserHistory}>
       <Route path="/" component={Header}>
         <IndexRoute component={ShowCase}/>
         <Route path="contacts" component={Contact} />
@@ -43,6 +32,5 @@ export default (props) => {
           component={ShowPiece} />
       </Route>
     </Router>
-
   );
 }
