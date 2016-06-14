@@ -32,4 +32,6 @@
  - Babel
  - xero-client
 
-## To read more visit https://nodevision.com.au
+## To read more visit https://nodevision.com.au/blog/post/how-to-integrate-nodejsreact-app-with-xero
+
+## To see a live demo visit http://reactxeroapp.nodevision.com.au
